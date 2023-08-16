@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="grid grid-cols-3 gap-5 w-10/12 mx-auto my-10">
+      <div class="h-60 bg-slate-200 p-10 rounded">
+        <p class="text-4xl font-bold text-emerald-700">Deposit</p>
+        <p class="text-4xl font-bold text-emerald-700 my-4">
+          $ <span id="previousDeposit">00</span>
+        </p>
+      </div>
+
+      <div class="h-60 bg-orange-300 p-10 rounded">
+        <p class="text-4xl font-bold text-emerald-700">Withdraw</p>
+        <p class="text-4xl font-bold text-emerald-700 my-4">
+          $ <span id="previousWithdraw">00</span>
+        </p>
+      </div>
+
+      <div class="h-60 bg-green-200 p-10 rounded">
+        <p class="text-4xl font-bold text-emerald-700">Balance</p>
+        <p class="text-4xl font-bold text-emerald-700 my-4">
+          $ <span id="previousBalance">00</span>
+        </p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-5 w-10/12 mx-auto my-10">
+      <div class="h-60 bg-orange-100 p-10 rounded">
+        <p class="text-4xl font-bold text-emerald-700">Please Deposit</p>
+        <input
+          class="mt-5 h-10 rounded-lg focus:outline-none p-2"
+          type="number"
+          name=""
+          id="newDeposit"
+        />
+        <br />
+        <button id="handleDepositBtn" class="mt-2 btn btn-active btn-accent">
+          Deposit
+        </button>
+      </div>
+
+      <div class="h-60 bg-green-100 p-10 rounded">
+        <p class="text-4xl font-bold text-emerald-700">Please Withdraw</p>
+        <input
+          class="mt-5 h-10 rounded-lg focus:outline-none p-2"
+          type="number"
+          name=""
+          id="newWithdraw"
+        />
+        <br />
+        <button id="handleWithdrawBtn" class="mt-2 btn btn-active btn-accent">Withdraw</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    document
+      .getElementById("handleDepositBtn")
+      .addEventListener("click", function () {
+        // step 1
+        const newDepositField = document.getElementById("newDeposit");
+        const newDepositValue = parseFloat(newDepositField.value);
+        
+        // Step 2
+        newDepositField.value = "";
+        // step3
+        if (isNaN(newDepositValue)) {
+          alert("Not a Number");
+          return;
+        }
+        // step4
+        const previousDepositField=document.getElementById('previousDeposit')
+        const previousDepositAmount=parseFloat(previousDepositField.innerText)
+        
+        // Step5
+        const newDepositAmount=previousDepositAmount+newDepositValue;
+
+        // Step6
+        previousDepositField.innerText=newDepositAmount;
+
+        // Step7
+        const previousBalanceField=document.getElementById('previousBalance')
+        const previousBalanceAmount=parseFloat(previousBalanceField.innerText)
+        previousBalanceField.innerText=previousBalanceAmount+newDepositValue
+      });
+
+      document.getElementById('handleWithdrawBtn').addEventListener('click',function () {
+        // step 1
+        const newWithdrawField = document.getElementById("newWithdraw");
+        const newWithdrawValue = parseFloat(newWithdrawField.value);
+        console.log(newWithdrawValue)
+        
+        // Step 2
+        newWithdrawField.value = "";
+        // step3
+        if (isNaN(newWithdrawValue)) {
+          alert("Not a Number");
+          return;
+        }
+
+        // step4
+        const previousWithdrawField=document.getElementById('previousWithdraw')
+        const previousWithdrawAmount=parseFloat(previousWithdrawField.innerText)
+       
+        // Step5
+        const newWithdrawAmount=previousWithdrawAmount+newWithdrawValue;
+        
+        // Step7
+        const previousBalanceField=document.getElementById('previousBalance')
+        const previousBalanceAmount=parseFloat(previousBalanceField.innerText)
+
+        // 
+        if (newWithdrawValue>previousBalanceAmount) {
+            alert("You Don't have enough Deposit balance to withdraw this amount")
+            return
+        }
+        // Step6
+        previousWithdrawField.innerText=newWithdrawAmount;
+
+        
+        previousBalanceField.innerText=previousBalanceAmount-newWithdrawValue
+      })
+  </script>
+</html>
