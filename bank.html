@@ -60,49 +60,60 @@
           id="newWithdraw"
         />
         <br />
-        <button id="handleWithdrawBtn" class="mt-2 btn btn-active btn-accent">Withdraw</button>
+        <button id="handleWithdrawBtn" class="mt-2 btn btn-active btn-accent">
+          Withdraw
+        </button>
       </div>
     </div>
   </body>
   <script>
+    function getInputFieldById(inputId) {
+      const newField = document.getElementById(inputId);
+      const newValue = parseFloat(newField.value);
+      newField.value = "";
+      return newValue;
+    }
+    function getTextElementValuebyId(elementId) {
+      const previousValueText = document.getElementById(elementId);
+      const previousAmount = parseFloat(previousValueText.innerText);
+      return previousAmount;
+    }
+
+    function setTextElementValueById(elementId, newValues) {
+      const textElement = document.getElementById(elementId);
+      // const textValuetoNumber=parseFloat(textElement.innerText)
+      textElement.innerText = newValues;
+    }
+
     document
       .getElementById("handleDepositBtn")
       .addEventListener("click", function () {
         // step 1
-        const newDepositField = document.getElementById("newDeposit");
-        const newDepositValue = parseFloat(newDepositField.value);
-        
-        // Step 2
-        newDepositField.value = "";
+        const newDepositValue = getInputFieldById("newDeposit");
+        console.log(newDepositValue);
         // step3
         if (isNaN(newDepositValue)) {
           alert("Not a Number");
           return;
         }
         // step4
-        const previousDepositField=document.getElementById('previousDeposit')
-        const previousDepositAmount=parseFloat(previousDepositField.innerText)
-        
+        const previousDepositValue = getTextElementValuebyId("previousDeposit");
+        console.log(previousDepositValue);
         // Step5
-        const newDepositAmount=previousDepositAmount+newDepositValue;
-
-        // Step6
-        previousDepositField.innerText=newDepositAmount;
-
+        const newDepositAmount = newDepositValue + previousDepositValue;
+        setTextElementValueById("previousDeposit", newDepositAmount);
         // Step7
-        const previousBalanceField=document.getElementById('previousBalance')
-        const previousBalanceAmount=parseFloat(previousBalanceField.innerText)
-        previousBalanceField.innerText=previousBalanceAmount+newDepositValue
+        const previousBalanceAmount =getTextElementValuebyId("previousBalance");
+        const newtotaloutput = previousBalanceAmount + newDepositValue;
+        setTextElementValueById("previousBalance", newtotaloutput);
       });
 
-      document.getElementById('handleWithdrawBtn').addEventListener('click',function () {
+    document
+      .getElementById("handleWithdrawBtn")
+      .addEventListener("click", function () {
         // step 1
-        const newWithdrawField = document.getElementById("newWithdraw");
-        const newWithdrawValue = parseFloat(newWithdrawField.value);
-        console.log(newWithdrawValue)
-        
-        // Step 2
-        newWithdrawField.value = "";
+        const newWithdrawValue = getInputFieldById("newWithdraw");
+        console.log(newWithdrawValue);
         // step3
         if (isNaN(newWithdrawValue)) {
           alert("Not a Number");
@@ -110,26 +121,25 @@
         }
 
         // step4
-        const previousWithdrawField=document.getElementById('previousWithdraw')
-        const previousWithdrawAmount=parseFloat(previousWithdrawField.innerText)
-       
+        const previousWithdrawAmount=getTextElementValuebyId('previousWithdraw')
         // Step5
-        const newWithdrawAmount=previousWithdrawAmount+newWithdrawValue;
-        
-        // Step7
-        const previousBalanceField=document.getElementById('previousBalance')
-        const previousBalanceAmount=parseFloat(previousBalanceField.innerText)
+        const newWithdrawAmount = previousWithdrawAmount + newWithdrawValue;
 
-        // 
-        if (newWithdrawValue>previousBalanceAmount) {
-            alert("You Don't have enough Deposit balance to withdraw this amount")
-            return
+        // Step7
+        
+        const previousBalanceAmount =getTextElementValuebyId("previousBalance");
+        
+        if (newWithdrawValue > previousBalanceAmount) {
+          alert(
+            "You Don't have enough Deposit balance to withdraw this amount"
+          );
+          return;
         }
         // Step6
-        previousWithdrawField.innerText=newWithdrawAmount;
-
+        setTextElementValueById('previousWithdraw',newWithdrawAmount)
         
-        previousBalanceField.innerText=previousBalanceAmount-newWithdrawValue
-      })
+        const newtotaloutputs = previousBalanceAmount - newWithdrawValue;
+        setTextElementValueById("previousBalance", newtotaloutputs);
+      });
   </script>
 </html>
